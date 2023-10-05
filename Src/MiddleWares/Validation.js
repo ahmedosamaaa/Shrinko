@@ -10,7 +10,7 @@ const validationObjectId = ( value, helper ) => {
 
 export const validationCoreFunction = (Schema) => {
   return (req, res, next) => {
-    const validationErrorArr = [];
+    let validationErrorArr = [];
     for (const key of reqMethods) {
       if (Schema[key]) {
         const validationResult = Schema[key].validate(req[key], {
@@ -19,18 +19,11 @@ export const validationCoreFunction = (Schema) => {
         if (validationResult.error) {
           validationErrorArr.push(validationResult.error.details);
         }
-        // return res.json({ validationResult });
       }
     }
-    // console.log(validationErrorArr);
     if (validationErrorArr.length) {
-      // req.validationErrors = validationErrorArr
-      // console.log(validationErrorArr);
-      // return next(new Error(validationErrorArr, { cause: 400 }))
-      return res.json({
-        message: "validation error",
-        errors: validationErrorArr,
-      });
+      req.validationErrors = validationErrorArr
+      return next(new Error('', { cause: 400 }))
     }
     next()
   };

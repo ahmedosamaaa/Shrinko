@@ -9,13 +9,13 @@ export const errorHandling = (API) => {
 }
 
 export const globalResponse = (err, req, res, next) => {
+  console.log(req.validationErrors)
   if (err) {
-    // console.log(req.validationErrors)
-    // if (req.validationErrors) {
-    //   return res
-    //     .status(err['cause'] || 500)
-    //     .json({ error: req.validationErrors })
-    // }
+    if (req.validationErrors) {
+      return res
+        .status(err['cause'] || 500)
+        .json({ error: req.validationErrors })
+    }
     return res.status(err['cause'] || 500).json({ message: err.message })
   }
 }

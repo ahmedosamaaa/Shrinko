@@ -1,5 +1,6 @@
 import { connectionDB } from "../../DB/connection.js";
 import * as routers from "../Modules/index.routes.js";
+import { globalResponse } from "./ErrorHandling.js";
 
 export const initiateApp = (app, express) => {
     const port = process.env.PORT || 500;
@@ -14,5 +15,6 @@ export const initiateApp = (app, express) => {
     // app.all("*", (req, res, next) => {
     //     res.json({ message: "404 Not Found URL" });
     // });
+    app.use(globalResponse);
     app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 }
